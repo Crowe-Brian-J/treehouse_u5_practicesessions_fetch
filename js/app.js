@@ -49,7 +49,7 @@ const displayCountries = (countries) => {
 
     countryDiv.innerHTML = `
       <h3 class='country-name'>${name}</h3>
-      <img class='country-flag' src='${flag}' alt='Flag of ${name} />
+      <img class='country-flag' src='${flag}' alt='Flag of ${name}' />
       `
 
     // Add the created div to the '.countries' container
@@ -68,6 +68,59 @@ const loadMoreCountries = () => {
     document.getElementById('load-more').style.display = 'none'
   }
 }
+
+// Elements
+const overlay = document.getElementById('overlay')
+const closeBtn = document.getElementById('close-btn')
+const modalName = document.getElementById('modal-name')
+const modalFlag = document.getElementById('modal-flag')
+const modalCapital = document.getElementById('modal-capital')
+const modalPopulation = document.getElementById('modal-population')
+const modalRegion = document.getElementById('modal-region')
+
+// Click event listener on the container
+document.querySelector('.countries').addEventListener('click', (e) => {
+  const countryCard = e.target.closest('.country')
+  if (!countryCard) return
+
+  // Get country name from clicked element
+  const countryName = countryCard.querySelector('.country-name').textContent
+
+  // Find country object in allCountries array
+  const country = allCountries.find((c) => c.name.common === countryName)
+
+  if (country) {
+    // Update modal content
+    modalName.textContent = country.name.common
+    modalFlag.src = country.flags?.svg || ''
+    modalFlag.alt = `Flag of ${country.name.common}`
+    modalCapital.textContent = country.capital ? country.capital[0] : 'N/A'
+    modalPopulation.textContent = country.population?.toLocaleString() || 'N/A'
+    modalRegion.textContent = country.region || 'N/A'
+
+    // Show modal
+    overlay.classList.add('open')
+  }
+})
+
+// Close button
+closeBtn.addEventListener('click', () => {
+  overlay.classList.remove('open')
+})
+
+// EXTRA CREDIT: close when clicking outside modal
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) {
+    overlay.classList.remove('open')
+  }
+})
+
+// EXTRA CREDIT: close when pressing Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    overlay.classList.remove('open')
+  }
+})
 
 //3. Call the getCountries function.
 getCountries()
