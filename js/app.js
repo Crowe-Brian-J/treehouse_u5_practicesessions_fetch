@@ -12,7 +12,7 @@ const batchSize = 30 // How many countries per load
 const getCountries = async () => {
   try {
     const response = await fetch(
-      'https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region,flags'
+      'https://restcountries.com/v3.1/all?fields=name,flags,capital,population,region'
     )
 
     // Check response
