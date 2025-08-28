@@ -41,11 +41,7 @@ const displayCountries = (countries) => {
   countries.forEach((country) => {
     // Grab the needed info
     const name = country.name?.common
-    // some countries have more than one
-    const capital = country.capital[0]
-    const population = country.population?.toLocaleString()
     const flag = country.flags.svg
-    const region = country.region
 
     // Create the country div
     const countryDiv = document.createElement('div')
@@ -54,15 +50,7 @@ const displayCountries = (countries) => {
     countryDiv.innerHTML = `
       <h3 class='country-name'>${name}</h3>
       <img class='country-flag' src='${flag}' alt='Flag of ${name} />
-      <div class='content'>
-        <h3>Capital</h3>
-        <p>${capital}</p>
-        <h3>Population</h3>
-        <p>${population}</p>
-        <h3>Region</h3>
-        <p>${region}</p>
-      </div>
-    `
+      `
 
     // Add the created div to the '.countries' container
     container.appendChild(countryDiv)
