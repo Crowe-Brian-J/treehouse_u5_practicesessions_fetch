@@ -21,10 +21,10 @@ const getCountries = async () => {
     }
 
     // Convert the response to JSON
-    const countries = await response.json()
+    allCountries = await response.json()
 
-    // Pass the data to the displayCountries function
-    displayCountries(countries)
+    // Show the first batch
+    loadMoreCountries()
   } catch (err) {
     console.error('Error fetching countries: ', err)
   }
@@ -44,7 +44,6 @@ const displayCountries = (countries) => {
     // some countries have more than one
     const capital = country.capital[0]
     const population = country.population?.toLocaleString()
-    //double check for country code
     const flag = country.flags.svg
     const region = country.region
 
@@ -68,6 +67,18 @@ const displayCountries = (countries) => {
     // Add the created div to the '.countries' container
     container.appendChild(countryDiv)
   })
+}
+
+// Load next batch
+const loadMoreCountries = () => {
+  const nextBatch = allCountries.slice(currentIndex, currentIndex + batchSize)
+  displayCountries(nextBatch)
+  currentIndex += batchSize
+
+  // Hide button if we've loaded them all
+  if (currentIndex >= allCountries.length) {
+    document.getElementById('load-more').style.display = 'none'
+  }
 }
 
 //3. Call the getCountries function.
